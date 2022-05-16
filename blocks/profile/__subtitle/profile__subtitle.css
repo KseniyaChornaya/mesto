@@ -1,0 +1,9 @@
+.profile__subtitle{
+    margin: 0;
+    font-family: 'Inter', 'Helvetica', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 17px;
+    text-align: center;
+}
