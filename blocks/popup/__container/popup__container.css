@@ -1,0 +1,8 @@
+.popup__container{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    min-width: 282px;
+    position: relative;
+    z-index: 2;
+}

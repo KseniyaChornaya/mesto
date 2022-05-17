@@ -2,5 +2,11 @@
     min-height: auto;
     border-bottom: 1px solid #545454;
     margin: 28px auto 0 auto;
-    max-width: 990px;
+    max-width: 880px;
+}
+
+@media screen and (min-width: 560px){
+    .header{
+        margin-top: 45px;
+}
 }

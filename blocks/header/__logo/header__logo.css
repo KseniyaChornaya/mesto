@@ -2,5 +2,15 @@
     min-width: 103.74px;
     min-height: 24.4px;
     padding-left: 27px;
-    padding-bottom: 31.6px;
+    padding-bottom: 27px;
+}
+
+
+@media screen and (min-width: 768px){
+    .header__logo{
+        width: 142px;
+        height: 33px;
+        padding-left: 19px;
+        padding-bottom: 38px;
+}
 }

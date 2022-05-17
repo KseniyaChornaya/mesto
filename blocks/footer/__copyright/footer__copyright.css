@@ -1,0 +1,9 @@
+.footer__copyright{
+    padding: 48px 19px 36px 19px;
+}
+
+@media screen and (min-width: 920px){
+    .footer__copyright{
+        padding: 60px 0 66px 0;
+}
+}
