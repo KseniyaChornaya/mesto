@@ -2,4 +2,19 @@
     border: 0;
     outline: none;
     background-color: black;
+    color: white;
+    font-family: 'Inter', 'Helvetica', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    width: 238px;
+    height: 46px;
+    border-radius: 5px;
+}
+
+@media screen and (min-width: 768px){
+    .popup__submit{
+        min-width: 358px;
+}
 }
