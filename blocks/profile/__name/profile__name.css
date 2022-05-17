@@ -5,9 +5,21 @@
     font-weight: 500;
     font-style: normal;
     line-height: 33px;
-    padding-bottom: 14px;
+    padding-bottom: 9px;
     padding-right: 10px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    padding-left: 20px;
+}
+
+@media screen and (min-width: 768px){
+    .profile__name{
+        font-size: 42px;
+        line-height: 48px;
+        padding-left: 15px;
+        padding-right: 25px;
+        align-self: start;
+        justify-self: flex-start;
+}
 }
