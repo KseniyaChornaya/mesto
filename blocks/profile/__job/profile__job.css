@@ -1,4 +1,4 @@
-.profile__subtitle{
+.profile__job{
     margin: 0;
     font-family: 'Inter', 'Helvetica', sans-serif;
     font-size: 14px;
@@ -6,13 +6,18 @@
     font-style: normal;
     line-height: 17px;
     text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 282px;
 }
 
 
 @media screen and (min-width: 560px){
-    .profile__subtitle{
+    .profile__job{
         font-size: 18px;
         line-height: 22px;
         padding-left: 12px;
+        width: 336px;
 }
 }
