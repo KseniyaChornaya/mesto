@@ -7,9 +7,9 @@
     background-position: center;
     background-repeat: no-repeat;
     transition: 0.7s;
-    justify-self: center;
+    margin-top: 8px;
+    margin-right: 8px;
     align-self: start;
-    margin-top: 9px;
 }
 
 .profile__edit-button:hover{
