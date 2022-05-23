@@ -2,10 +2,10 @@ const editButton = document.querySelector('.profile__edit-button')
 const popup = document.querySelector('.popup')
 const closePopupButton = document.querySelector('.popup__close')
 
-const nameInput = document.querySelector('.popup__input_name')
+const nameInput = document.querySelector('.popup_field_name')
 const profileName = document.querySelector('.profile__name')
 
-const jobInput = document.querySelector('.popup__input_job')
+const jobInput = document.querySelector('.popup_field_job')
 const profileJob = document.querySelector('.profile__job')
 
 const formElement = document.querySelector('.popup__form')
@@ -18,16 +18,16 @@ function closePopup(popupElement){
     popupElement.classList.remove('popup_opened')
 }
 
-editButton.addEventListener('click', function(){
+function inputInf(){
     openPopup(popup)
     nameInput.value = profileName.textContent;
     jobInput.value = profileJob.textContent;
-})
+}
+
+editButton.addEventListener('click',inputInf)
 
 closePopupButton.addEventListener('click', function(){
     closePopup(popup)
-    profileName.textContent = nameInput.value;
-    profileJob.textContent = jobInput.value;
 })
 
 
