@@ -6,15 +6,26 @@
     width: 238px;
     height: 27px;
     display: block;
-    outline: none;
     padding: 0;
+    padding-bottom: 9px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    font-size: 14px;
+    line-height: 17px;
+    margin-bottom: 30px;
+}
+
+.popup__input:last-child{
+    margin-bottom: 46px;
 }
 
 @media screen and (min-width: 768px){
     .popup__input{
         min-width: 358px;
-}
+    }
+
+    .popup__input:last-child{   
+        margin-bottom: 48px;
+    }
 }

@@ -10,11 +10,18 @@
     text-align: center;
     width: 238px;
     height: 46px;
-    border-radius: 5px;
+    border-radius: 2px;
+}
+
+.popup__submit:hover{
+    cursor: pointer;
+    opacity: 0.8;
 }
 
 @media screen and (min-width: 768px){
     .popup__submit{
         min-width: 358px;
+        font-size: 18px;
+        line-height: 22px;
 }
 }
