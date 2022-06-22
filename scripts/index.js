@@ -1,7 +1,8 @@
 const forms = document.querySelectorAll('form')
-const popups = document.querySelectorAll('[data-popup]')
 const closePopupButtons = document.querySelectorAll('.popup__close')
-const images = document.querySelectorAll('.card__image')
+const placeImage = document.querySelector('#image .popup__image')
+const placeTitle = document.querySelector('#image .popup__title')
+
 
 const nameInput = document.querySelector('.popup__input_field_name')
 const profileName = document.querySelector('.profile__name')
@@ -17,17 +18,51 @@ const placeNameInput = document.querySelector('.popup__input_place_name')
 const placeLinkInput = document.querySelector('.popup__input_place_link')
 const card = document.querySelector('.card')
 const cardTemplate = document.querySelector('#template')
+const popupImage = document.querySelector('#image')
+const popup = document.querySelector('.popup')
+const popupEdit = document.querySelector('#edit')
+const popupAdd = document.querySelector('#add')
+const editButton = document.querySelector('.profile__edit-button')
+const addButton = document.querySelector('.profile__add-button')
 
+function openPopup(popupEl) {
+  popupEl.classList.add('popup_opened')
+}
+
+function openPopupImage(imageEl){
+  placeImage.src = imageEl.src
+  placeTitle.textContent = imageEl.alt
+  placeImage.alt = imageEl.alt
+  openPopup(popupImage)
+}
+
+function removeCard(element) {
+  element.closest('.card').remove()
+} 
+
+function likeCard(element) {
+  element.closest('.card__like').classList.toggle('card__like_active')
+}
 
 function createCardElement(name, link) {
     const cardElement = cardTemplate.content.cloneNode(true)
     cardElement.querySelector('.card__title').textContent = name
     cardElement.querySelector('.card__image').src = link
-    cardElement.querySelector('.card__title').alt = name
-
+    cardElement.querySelector('.card__image').alt = name
+    cardElement.querySelector('.card').addEventListener('click', (e) => {
+      const el = e.target
+      if (el.classList.contains('card__like')){
+        likeCard(el) 
+      } else if (el.classList.contains('card__trash')) {
+        removeCard(el);
+      } else if (el.classList.contains('card__image')){
+        openPopupImage(el)
+      }
+    });
    return cardElement
 
  }
+
 
 function generateCards() {
   cards.innerHTML = ''
@@ -48,24 +83,6 @@ function addCard() {
     generateCards()
 }
 
-function removeCard(element) {
-    element.closest('.card').remove()
-} 
-
-function likeCard(element) {
-    element.closest('.card__like').classList.toggle('card__like_active')
-}
-
-function openPopup(popupId, data, name){
-  const popup = document.querySelector(`#${popupId}`)
-    popup.classList.add('popup_opened');
-    if(popupId === 'edit'){
-        inputInf()
-    } else if(popupId === 'image'){
-        popup.querySelector('.popup__image').src = data.src
-        popup.querySelector('.popup__title').textContent = name
-    }
-}
 
 function closePopup(popup){
     popup.closest('.popup').classList.remove('popup_opened')
@@ -95,26 +112,16 @@ forms.forEach(function(element) {
     });
 });
 
-Array.from(popups).forEach(function(element) {
-    element.addEventListener('click', event => {
-        openPopup(event.target.dataset.popup, event.target)
-    });
+editButton.addEventListener('click',() => {
+  openPopup(popupEdit)
 });
+
+addButton.addEventListener('click',() => {
+  openPopup(popupAdd)
+})
 
 Array.from(closePopupButtons).forEach(function(element) {
     element.addEventListener('click', event => {
         closePopup(event.target)
     });
-});
-
-cards.addEventListener('click', (e) => {
-  const el = e.target
-  if (el.classList.contains('card__like')){
-    likeCard(el) 
-  } else if (el.classList.contains('card__trash')) {
-    removeCard(el);
-  } else if (el.classList.contains('card__image')){
-    let name = e.target.closest('.card').querySelector('.card__title').textContent
-    openPopup(e.target.dataset.popup, e.target, name)
-  }
 });
