@@ -75,12 +75,8 @@ function generateCards() {
 generateCards()
 
 function addCard() {
-    initialCards.push({
-      name: placeNameInput.value,
-      link: placeLinkInput.value
-    })
-
-    generateCards()
+    const element = createCardElement(placeNameInput.value, placeLinkInput.value)  
+    cards.prepend(element) 
 }
 
 
@@ -114,6 +110,7 @@ forms.forEach(function(element) {
 
 editButton.addEventListener('click',() => {
   openPopup(popupEdit)
+  inputInf()
 });
 
 addButton.addEventListener('click',() => {
