@@ -1,4 +1,11 @@
-function closePopupEcs(evt) {
+import renderCards from './Card.js';
+import {addCardForm, editProfileForm, closePopupButtons, nameInput, profileName, jobInput, profileJob, placeNameInput, placeLinkInput, popupEdit, popupAdd, editButton, addButton, escKeyButton, addSubmitButton} from './const.js';
+import { FormValidator } from './FormValidator.js';
+renderCards();
+import { config } from './const.js';
+import { Card } from './Card.js';
+
+export function closePopupByEcs(evt) {
   if (evt.keyCode === escKeyButton) {
     const popupOpened = document.querySelector(".popup_opened");
     closePopup(popupOpened);
@@ -7,54 +14,7 @@ function closePopupEcs(evt) {
 
 function openPopup(popupEl) {
   popupEl.classList.add("popup_opened");
-  document.addEventListener("keydown", closePopupEcs);
-}
-
-function openPopupImage(imageEl) {
-  placeImage.src = imageEl.src;
-  placeTitle.textContent = imageEl.alt;
-  placeImage.alt = imageEl.alt;
-  openPopup(popupImage);
-}
-
-function removeCard(element) {
-  element.closest(".card").remove();
-}
-
-function likeCard(element) {
-  element.closest(".card__like").classList.toggle("card__like_active");
-}
-
-function createCardElement(name, link) {
-  const cardElement = cardTemplate.content.cloneNode(true);
-  cardElement.querySelector(".card__title").textContent = name;
-  cardElement.querySelector(".card__image").src = link;
-  cardElement.querySelector(".card__image").alt = name;
-  cardElement.querySelector(".card").addEventListener("click", (e) => {
-    const el = e.target;
-    if (el.classList.contains("card__like")) {
-      likeCard(el);
-    } else if (el.classList.contains("card__trash")) {
-      removeCard(el);
-    } else if (el.classList.contains("card__image")) {
-      openPopupImage(el);
-    }
-  });
-  return cardElement;
-}
-
-function generateCards() {
-  cards.innerHTML = "";
-  initialCards.forEach((item) => {
-    addCard(item.name, item.link);
-  });
-}
-
-generateCards();
-
-function addCard(placeName, placeLink) {
-  const element = createCardElement(placeName, placeLink);
-  cards.prepend(element);
+  document.addEventListener("keydown", closePopupByEcs);
 }
 
 function inputInf() {
@@ -77,7 +37,9 @@ editProfileForm.addEventListener("submit", (event) => {
 
 addCardForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  addCard(placeNameInput.value, placeLinkInput.value);
+  const card = new Card({name:placeNameInput.value, link:placeLinkInput.value}, "#template").generateCard();
+  document.querySelector(".cards").prepend(card);
+
   closePopup(event.target);
   document.forms["addForm"].reset();
   addSubmitButton.disabled = true;
@@ -100,7 +62,7 @@ addButton.addEventListener("click", () => {
 
 function closePopup(popup) {
   popup.closest(".popup").classList.remove("popup_opened");
-  document.removeEventListener("keydown", closePopupEcs);
+  document.removeEventListener("keydown", closePopupByEcs);
 }
 
 document.addEventListener("click", function (evt) {
@@ -114,10 +76,6 @@ document.addEventListener("click", function (evt) {
   }
 });
 
-enableValidation({
-  formSelector: ".popup__form",
-  inputSelector: ".popup__input",
-  submitButtonSelector: ".popup__submit",
-  inputErrorClass: "popup__input_type_error",
-  errorActiveClass: "popup__input-error_active",
-});
+const validatorProfile = new FormValidator(config, editProfileForm).enableValidation();
+
+const validatorAddCard = new FormValidator(config, addCardForm).enableValidation();
