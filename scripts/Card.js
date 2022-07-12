@@ -1,12 +1,9 @@
-import {initialCards} from './cards.js';
-import {closePopupByEcs} from './index.js';
-import {placeImage, placeTitle} from './const.js'
-
 export class Card {
-  constructor(data, cardSelector) {
+  constructor(data, cardSelector, handleCardClick) {
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -22,49 +19,33 @@ export class Card {
     this._element.addEventListener("click", (e) => {
       const el = e.target;
       if (el.classList.contains("card__like")) {
-        this._hadlerLikeCard();
+        this._handlerLikeCard();
       } else if (el.classList.contains("card__trash")) {
         this._removeCard();
       } else if (el.classList.contains("card__image")) {
-        this._openPopupImage();
+        this._handleCardClick(this._name, this._link);
       }
     });
   }
 
-  _hadlerLikeCard() {
-    this._element
-      .querySelector(".card__like")
-      .classList.toggle("card__like_active");
+  _handlerLikeCard() {
+    this._cardLike = this._element.querySelector(".card__like");
+    this._cardLike.classList.toggle("card__like_active");
   }
 
   _removeCard() {
     this._element.remove();
   }
 
-  _openPopupImage() {
-    document.querySelector("#image").classList.add("popup_opened");
-    placeImage.src = this._link;
-    placeTitle.textContent = this._name;
-    placeImage.alt = this._name;
-    document.addEventListener("keydown", closePopupByEcs);
-  }
-
   generateCard() {
     this._element = this._getTemplate();
-
-    this._element.querySelector(".card__image").src = this._link;
+    this._cardImage = this._element.querySelector(".card__image");
+    this._cardImage.src = this._link;
     this._element.querySelector(".card__title").textContent = this._name;
-    this._element.querySelector(".card__image").alt = this._name;
+    this._cardImage.alt = this._name;
 
     this._setEventListeners();
 
     return this._element;
   }
-}
-
-export default function() {
-  initialCards.forEach((item) => {
-    const card = new Card(item, "#template").generateCard();
-    document.querySelector(".cards").prepend(card);
-  });
 }

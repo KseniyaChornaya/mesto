@@ -1,4 +1,5 @@
 export const addCardForm = document.querySelector("#addForm");
+export const popupImage = document.querySelector("#image");
 export const forms = document.querySelectorAll(".form");
 export const editProfileForm = document.querySelector("#editForm");
 export const closePopupButtons = document.querySelectorAll(".popup__close");
