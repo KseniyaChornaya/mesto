@@ -1,27 +1,23 @@
-import { initialCards } from "./cards.js";
+import './index.css';
+import { initialCards } from "../utils/cards.js";
 import {
   addCardForm,
   editProfileForm,
-  cards,
   nameInput,
   jobInput,
-  placeNameInput,
-  placeLinkInput,
   popupEdit,
   popupAdd,
   editButton,
   addButton,
   popupImage,
-  profileName,
-  profileJob,
-} from "./const.js";
-import FormValidator from "./FormValidator.js";
-import { config } from "./const.js";
-import Card from "./Card.js";
-import Section from "./Section.js";
-import PopupWithImage from './PopupWithImage.js';
-import PopupWithForm from './PopupWithForm.js';
-import UserInfo from './UserInfo.js';
+} from "../utils/const.js";
+import FormValidator from "../components/FormValidator.js";
+import { config } from "../utils/const.js";
+import Card from "../components/Card.js";
+import Section from "../components/Section.js";
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
 
 function createCard(item) {
   const cardElement = new Card (
@@ -42,12 +38,6 @@ const renderCards  = new Section ({
 
 renderCards.renderItems();
 
-// function inputInf() {
-//   nameInput.value = profileName.textContent;
-//   jobInput.value = profileJob.textContent;
-// }
-
-// inputInf();
 const saveUserInfo = new UserInfo (nameInput, jobInput);
 
 function savePersonData() {
@@ -74,24 +64,13 @@ addButton.addEventListener("click", () => {
   const addPopup = new PopupWithForm (popupAdd, handleSendAddForm);
   addPopup.openPopup();
   addPopup.setEventListener();
-  //validatorAddCard.resetValidation();
+  validatorAddCard.resetValidation();
 });
 
 function handleCardClick() {
   const imagePopup = new PopupWithImage (popupImage)
   imagePopup.openPopup(this._name, this._link);
 }
-
-// editProfileForm.addEventListener("submit", (event) => {
-//   event.preventDefault();
-//   savePersonData();
-// });
-
-// addCardForm.addEventListener("submit", (event) => {
-//   event.preventDefault();
-  // const element = createCard(placeNameInput.value, placeLinkInput.value);
-  // cards.prepend(element);
-// });
 
 const validatorProfile = new FormValidator(config, editProfileForm);
 validatorProfile.enableValidation();

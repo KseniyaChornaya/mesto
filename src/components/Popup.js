@@ -1,4 +1,4 @@
-import { escKeyButton } from "./const.js";
+import { escKeyButton } from "../utils/const.js";
 
 export default class Popup {
   constructor(popupSelector) {
