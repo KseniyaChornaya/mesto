@@ -16,17 +16,16 @@ export default class Card {
   }
 
   _setEventListeners() {
-    this._element.addEventListener("click", (e) => {
-      const el = e.target;
-      if (el.classList.contains("card__like")) {
-        this._handlerLikeCard();
-      } else if (el.classList.contains("card__trash")) {
-        this._removeCard();
-      } else if (el.classList.contains("card__image")) {
-        this._handleCardClick(this._name, this._link);
-      }
-    });
-  }
+    this._element.querySelector(".card__like").addEventListener("click", (e) => {
+      this._handlerLikeCard();
+    })
+    this._element.querySelector(".card__trash").addEventListener("click", (e) => {
+      this._removeCard();
+    })
+    this._element.querySelector(".card__image").addEventListener("click", (e) => {
+      this._handleCardClick(this._name, this._link);
+    })
+    }
 
   _handlerLikeCard() {
     this._cardLike = this._element.querySelector(".card__like");
