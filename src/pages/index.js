@@ -44,8 +44,8 @@ const imagePopup = new PopupWithImage (popupImage)
 imagePopup.setEventListener();
 
 
-function handleCardClick(e) {
-  imagePopup.openPopup(e.target.alt, e.target.src);
+function handleCardClick(name, link) {
+  imagePopup.openPopup(name, link);
 }
 
 const userInfo = new UserInfo(profileName, profileJob);

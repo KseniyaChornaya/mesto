@@ -14,12 +14,6 @@
     line-height: 17px;
 }
 
-.popup__input:first-child{
-    margin-bottom: 37px;
-    margin-top: 0px;
-}
-
-
 @media screen and (min-width: 768px){
     .popup__input{
         min-width: 358px;
