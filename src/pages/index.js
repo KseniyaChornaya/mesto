@@ -40,11 +40,12 @@ const renderCards  = new Section ({
 }, '.cards');
 renderCards.renderItems();
 
-function handleCardClick() {
-  const imagePopup = new PopupWithImage (popupImage)
-  imagePopup.openPopup(this._name, this._link);
-  imagePopup.setEventListener();
+const imagePopup = new PopupWithImage (popupImage)
+imagePopup.setEventListener();
 
+
+function handleCardClick(e) {
+  imagePopup.openPopup(e.target.alt, e.target.src);
 }
 
 const userInfo = new UserInfo(profileName, profileJob);

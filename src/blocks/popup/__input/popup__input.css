@@ -12,13 +12,13 @@
     overflow: hidden;
     font-size: 14px;
     line-height: 17px;
-    gap:12px;
 }
 
 .popup__input:first-child{
-    margin-top: auto;
-    margin-bottom: 20px;
+    margin-bottom: 37px;
+    margin-top: 0px;
 }
+
 
 @media screen and (min-width: 768px){
     .popup__input{

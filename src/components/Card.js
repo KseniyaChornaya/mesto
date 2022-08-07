@@ -16,19 +16,19 @@ export default class Card {
   }
 
   _setEventListeners() {
-    this._element.querySelector(".card__like").addEventListener("click", (e) => {
+    this._cardLike = this._element.querySelector(".card__like");
+    this._cardLike.addEventListener("click", (e) => {
       this._handlerLikeCard();
     })
     this._element.querySelector(".card__trash").addEventListener("click", (e) => {
       this._removeCard();
     })
-    this._element.querySelector(".card__image").addEventListener("click", (e) => {
-      this._handleCardClick(this._name, this._link);
+    this._cardImage.addEventListener("click", (e) => {
+      this._handleCardClick(e);
     })
     }
 
   _handlerLikeCard() {
-    this._cardLike = this._element.querySelector(".card__like");
     this._cardLike.classList.toggle("card__like_active");
   }
 

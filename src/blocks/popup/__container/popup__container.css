@@ -6,10 +6,12 @@
     position: relative;
     background: white;
     border-radius: 10px;
+    height: 322px;
 }
 
 @media screen and (min-width: 768px){
     .popup__container{
         min-width: 430px;
+        height: 330px;
 }
 }
