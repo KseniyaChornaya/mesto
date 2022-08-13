@@ -7,6 +7,7 @@
     padding-top: 42px;
     padding-bottom: 36px;
     align-items: center;
+    position: relative;
 }
 
 @media screen and (min-width: 560px){

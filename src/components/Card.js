@@ -1,9 +1,10 @@
 export default class Card {
-  constructor(data, cardSelector, handleCardClick) {
+  constructor(data, cardSelector, handleCardClick, deleteServerCard) {
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
+    this._deleteServerCard = deleteServerCard;
   }
 
   _getTemplate() {
@@ -29,11 +30,27 @@ export default class Card {
     }
 
   _handlerLikeCard() {
-    this._cardLike.classList.toggle("card__like_active");
+    let count;
+
+    this._cardLike.addEventListener('click', () => {
+      if(this._cardLike.classList.contains("card__like_active")) {
+        this._cardLike.classList.remove("card__like_active");
+        count -= 1;
+        } else {
+        count += 1;
+        this._cardLike.classList.add("card__like_active");
+        }
+    })
   }
 
-  _removeCard() {
-    this._element.remove();
+  async _removeCard() {
+    try {
+      await this._deleteServerCard()
+      this._element.remove();
+  }
+    catch(error){
+      console.log(error);
+    }
   }
 
   generateCard() {

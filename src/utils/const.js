@@ -16,14 +16,20 @@ export const placeLinkInput = document.querySelector(".popup__input_place_link")
 export const cardTemplate = document.querySelector("#template");
 export const popupEdit = "#edit";
 export const popupAdd = "#add";
+export const popupAvatar = '#avatar';
+export const popupConf = '#confirmation';
 export const buttonEdit = document.querySelector(".profile__edit-button");
 export const buttonAdd = document.querySelector(".profile__add-button");
 export const escKeyButton = 27;
 export const submitAddButton = document.querySelector("#addSubmit");
+export const avatarEditForm = document.querySelector("#editAvatar");
+export const avatarEditButton = document.querySelector(".profile__avatar-edit");
 export const config = {
     formSelector: ".popup__form",
     inputSelector: ".popup__input",
     submitButtonSelector: ".popup__submit",
     inputErrorClass: "popup__input_type_error",
     errorActiveClass: "popup__input-error_active",
+    host: 'https://mesto.nomoreparties.co/v1/cohort-47/',
+    token: '862c5689-9bb9-4098-8d9c-6b67add907ce',
   };
