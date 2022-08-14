@@ -1,10 +1,13 @@
 export default class Card {
-  constructor(data, cardSelector, handleCardClick, deleteServerCard) {
+  constructor(data, cardSelector, handleCardClick, deleteServerCard, likes, openDeletePopup) {
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
     this._deleteServerCard = deleteServerCard;
+    this._likes = data.likes;
+    // this._userId = userId;
+
   }
 
   _getTemplate() {
@@ -18,10 +21,11 @@ export default class Card {
 
   _setEventListeners() {
     this._cardLike = this._element.querySelector(".card__like");
+    this._cardDelete = this._element.querySelector(".card__trash");
     this._cardLike.addEventListener("click", (e) => {
       this._handlerLikeCard();
     })
-    this._element.querySelector(".card__trash").addEventListener("click", (e) => {
+    this._cardDelete.addEventListener("click", (e) => {
       this._removeCard();
     })
     this._cardImage.addEventListener("click", (e) => {
@@ -29,23 +33,32 @@ export default class Card {
     })
     }
 
-  _handlerLikeCard() {
-    let count;
+  _countLikes(){
+    if (this._likes.length > 0){
+      this._element.querySelector('.card__like-counter').textContent = this._likes.length;
+    }
+  }
 
-    this._cardLike.addEventListener('click', () => {
-      if(this._cardLike.classList.contains("card__like_active")) {
-        this._cardLike.classList.remove("card__like_active");
-        count -= 1;
-        } else {
-        count += 1;
-        this._cardLike.classList.add("card__like_active");
-        }
-    })
+  // _checkLike(){
+  //   const like  = this._likes.some(item => item._id === this._userId);
+  //   if (like) {
+  //     this._cardLike.classList.add("card__like_active");
+  //   }
+  // }
+  
+  // _checkId(){
+  //   if (this._userId !== this._owner._id){
+  //     this._cardDelete.classList.add('card__trash_hidden')
+  //   }
+  // }
+
+  _handlerLikeCard() {
+    this._cardLike.classList.toggle("card__like_active");
   }
 
   async _removeCard() {
     try {
-      await this._deleteServerCard()
+      await this.deleteServerCard()
       this._element.remove();
   }
     catch(error){
@@ -59,7 +72,7 @@ export default class Card {
     this._cardImage.src = this._link;
     this._element.querySelector(".card__title").textContent = this._name;
     this._cardImage.alt = this._name;
-
+    this._countLikes();
     this._setEventListeners();
 
     return this._element;

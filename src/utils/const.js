@@ -7,6 +7,8 @@ export const placeImage = document.querySelector("#image .popup__image");
 export const placeTitle = document.querySelector("#image .popup__title");
 export const popup = document.querySelector(".popup");
 export const nameInput = document.querySelector(".popup__input_field_name");
+export const avatarProfile = ".profile__avatar";
+export const avatarInput = document.querySelector(".popup__input_link_avatar");
 export const profileName = ".profile__name";
 export const jobInput = document.querySelector(".popup__input_field_job");
 export const profileJob = ".profile__job";
@@ -17,13 +19,14 @@ export const cardTemplate = document.querySelector("#template");
 export const popupEdit = "#edit";
 export const popupAdd = "#add";
 export const popupAvatar = '#avatar';
-export const popupConf = '#confirmation';
+export const popupConfirm = '#confirmation';
 export const buttonEdit = document.querySelector(".profile__edit-button");
 export const buttonAdd = document.querySelector(".profile__add-button");
 export const escKeyButton = 27;
 export const submitAddButton = document.querySelector("#addSubmit");
 export const avatarEditForm = document.querySelector("#editAvatar");
 export const avatarEditButton = document.querySelector(".profile__avatar-edit");
+export const confirmButton = document.querySelector("#confirmationSubmit");
 export const config = {
     formSelector: ".popup__form",
     inputSelector: ".popup__input",

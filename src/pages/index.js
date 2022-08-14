@@ -12,9 +12,12 @@ import {
   buttonAdd,
   popupImage,
   popupAvatar,
-  popupConf,
+  popupConfirm,
   avatarEditForm,
-  avatarEditButton
+  avatarEditButton,
+  confirmButton,
+  avatarInput,
+  avatarProfile,
 } from "../utils/const.js";
 import Api from "../components/Api.js";
 import FormValidator from "../components/FormValidator.js";
@@ -24,7 +27,9 @@ import Section from "../components/Section.js";
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
+import { data } from 'autoprefixer';
 
+let userId
 
 const api  = new Api(config.host, config.token);
 
@@ -46,7 +51,14 @@ function createCard(item) {
   return cardContainer;
 }
 
+api.getUserInfo()
+  .then((data)=> {
+    userInfo.setUserInfo(data.name, data.about);
+  })
+  .catch((err) => console.log(err));
+
 function removeCard(id){
+  console.log(id);
   return api.deleteCard(id);
 }
 
@@ -67,28 +79,32 @@ function handleCardClick(name, link) {
   imagePopup.openPopup(name, link);
 }
 
-const userInfo = new UserInfo(profileName, profileJob);
+const userInfo = new UserInfo(profileName, profileJob, avatarProfile);
 
+
+// добавляем карточку через сервер
 function handleSendAddForm(formData){
   let card
   api.createCard({name: formData.placeNameInput, link: formData.placeLinkInput})
   .then((data) => {
     card = data;
   })
-  console.log(card);
+  console.log(card)
   renderCards.addItem(createCard({name: formData.placeNameInput, link: formData.placeLinkInput}))
 }
 
 function handleSendEditForm(formData){
-  userInfo.setUserInfo(formData.nameInput, formData.jobInput)
+  api.editUserInfo({name:formData.nameInput, about:formData.jobInput})
+  .then((response) =>{
+    userInfo.setUserInfo(response.name, response.about)
+  })
+  
 }
 
-function handleEditAvatar(formData){
 
+function handleSendConfirmation(){
+  
 }
-
-
-// function handleSendConfirmation()
 
   //Form validation
   const validatorProfile = new FormValidator(config, profileFormEdit);
@@ -97,8 +113,7 @@ function handleEditAvatar(formData){
   const validatorAddCard = new FormValidator(config, cardFormAdd);
   validatorAddCard.enableValidation();
 
-  const validatorEditAvatar = new FormValidator(config, avatarEditForm); 
-  validatorEditAvatar.enableValidation();
+
 
 
   const infoUserPopup = new PopupWithForm (popupEdit, handleSendEditForm);
@@ -108,8 +123,30 @@ function handleEditAvatar(formData){
   const placeAddPopup = new PopupWithForm (popupAdd, handleSendAddForm);
   placeAddPopup.setEventListener();
 
+
+  // Avatar
+  function handleEditAvatar(formData){
+    api.setAvatar(formData.linkInput)
+    .then((res)=>{
+      userInfo.setUserAvatar(res.avatar);
+    })
+    avatarEditPopup.closePopup();
+  }
+
+  const validatorEditAvatar = new FormValidator(config, avatarEditForm); 
+  validatorEditAvatar.enableValidation();
+
   const avatarEditPopup = new PopupWithForm(popupAvatar, handleEditAvatar);
   avatarEditPopup.setEventListener();
+  avatarEditButton.addEventListener('click', ()=>  {
+    validatorEditAvatar.resetValidation();
+    avatarEditPopup.openPopup();
+  })
+
+  function openDeletePopup() {
+  const confirmPopup = new PopupWithForm(popupConfirm, handleSendConfirmation);
+  confirmPopup.setEventListener();
+  }
 
 // to open popups with form
 buttonEdit.addEventListener("click", () => {
@@ -125,7 +162,5 @@ buttonAdd.addEventListener("click", () => {
   placeAddPopup.openPopup();
 });
 
-avatarEditButton.addEventListener('click', ()=>  {
-  validatorEditAvatar.resetValidation();
-  popupAvatar.openPopup();
-})
+
+
