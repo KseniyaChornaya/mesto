@@ -29,39 +29,45 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import { data } from 'autoprefixer';
 
-let userId
 
 const api  = new Api(config.host, config.token);
 
+let ownerId
+
+function getUserInfo(){
+  api.getUserInfo()
+  .then((data)=> {
+    userInfo.setUserInfo(data);
+    ownerId = data._id; 
+  })
+  .catch((err) => console.log(err));
+}
+
+getUserInfo();
+
 // Получаем карточки с сервера
-api.getCards()
+function getCards(){
+  api.getCards()
   .then((items) => {
     renderCards.setItems(items);
     renderCards.renderItems();
   })
+}
+
+getCards();
 
 function createCard(item) {
   const cardElement = new Card (
     item,
     "#template", 
     handleCardClick,
-    removeCard,
+    openDeletePopup,
+    ownerId,
+    {handlerLikeButton: ()=> handlerLikeButton(cardElement, item)}
     );
   const cardContainer = cardElement.generateCard();
   return cardContainer;
 }
-
-api.getUserInfo()
-  .then((data)=> {
-    userInfo.setUserInfo(data.name, data.about);
-  })
-  .catch((err) => console.log(err));
-
-function removeCard(id){
-  console.log(id);
-  return api.deleteCard(id);
-}
-
 
 const renderCards  = new Section ({
   renderer: (item)=> {
@@ -84,45 +90,50 @@ const userInfo = new UserInfo(profileName, profileJob, avatarProfile);
 
 // добавляем карточку через сервер
 function handleSendAddForm(formData){
-  let card
   api.createCard({name: formData.placeNameInput, link: formData.placeLinkInput})
   .then((data) => {
-    card = data;
+    renderCards.addItem(createCard(data))
   })
-  console.log(card)
-  renderCards.addItem(createCard({name: formData.placeNameInput, link: formData.placeLinkInput}))
 }
 
+// обновляем профиль
 function handleSendEditForm(formData){
   api.editUserInfo({name:formData.nameInput, about:formData.jobInput})
-  .then((response) =>{
-    userInfo.setUserInfo(response.name, response.about)
+  .then((res) =>{
+    userInfo.setUserInfo(res)
   })
   
 }
 
-
-function handleSendConfirmation(){
-  
+// удаляем карточку
+function handleSendConfirmation(id){
+  api.deleteCard(id)
+  .then(()=> {
+    getCards();
+  })
 }
 
-  //Form validation
-  const validatorProfile = new FormValidator(config, profileFormEdit);
-  validatorProfile.enableValidation();
-  
-  const validatorAddCard = new FormValidator(config, cardFormAdd);
-  validatorAddCard.enableValidation();
+// api likes
+const serverLikes = {
+  setLike: (id) => {
+    api.setLike(id);
+  },
+  deleteLike: (id) => {
+    api.deleteLike(id);
+  }
+}
 
-
-
-
-  const infoUserPopup = new PopupWithForm (popupEdit, handleSendEditForm);
-  infoUserPopup.setEventListener();
-
-
-  const placeAddPopup = new PopupWithForm (popupAdd, handleSendAddForm);
-  placeAddPopup.setEventListener();
-
+//toggle likes
+function handlerLikeButton(card, data){
+    const likeToggle = card.isLiked() ? api.deleteLike(data._id) : api.setLike(data._id);
+    likeToggle
+    .then((res) =>{
+      card.setLikes(res);
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+  }
 
   // Avatar
   function handleEditAvatar(formData){
@@ -133,8 +144,24 @@ function handleSendConfirmation(){
     avatarEditPopup.closePopup();
   }
 
+  //Form validation
+  const validatorProfile = new FormValidator(config, profileFormEdit);
+  validatorProfile.enableValidation();
+  
+  const validatorAddCard = new FormValidator(config, cardFormAdd);
+  validatorAddCard.enableValidation();
+
   const validatorEditAvatar = new FormValidator(config, avatarEditForm); 
   validatorEditAvatar.enableValidation();
+
+//создание экщемпляров класса Popup
+  const infoUserPopup = new PopupWithForm (popupEdit, handleSendEditForm);
+  infoUserPopup.setEventListener();
+
+
+  const placeAddPopup = new PopupWithForm (popupAdd, handleSendAddForm);
+  placeAddPopup.setEventListener();
+
 
   const avatarEditPopup = new PopupWithForm(popupAvatar, handleEditAvatar);
   avatarEditPopup.setEventListener();
@@ -143,9 +170,11 @@ function handleSendConfirmation(){
     avatarEditPopup.openPopup();
   })
 
-  function openDeletePopup() {
-  const confirmPopup = new PopupWithForm(popupConfirm, handleSendConfirmation);
+  function openDeletePopup(id) {
+  const confirmPopup = new PopupWithForm(popupConfirm, () => handleSendConfirmation(id));
   confirmPopup.setEventListener();
+  confirmPopup.openPopup();
+  console.log(id);
   }
 
 // to open popups with form

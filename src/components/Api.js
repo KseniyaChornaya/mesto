@@ -75,7 +75,6 @@ export default class Api {
         })
     }
 
-    // не проходит запрос
     setAvatar(data){
         return fetch(this._host + 'users/me/avatar', {
             method: 'PATCH',
@@ -107,6 +106,40 @@ export default class Api {
                 return res.json();
             }
 
+            throw new Error('Ошибка при загрузке данных'); 
+        })
+    }
+
+    setLike(id){        
+    return fetch(`${this._host}cards/${id}/likes`, {
+        method: 'PUT',
+        headers:{
+            authorization: this._token,
+            'content-type': 'application/json',
+        },
+    })
+    .then(res => {
+        if (res.ok) {
+            return res.json();
+        }
+
+        throw new Error('Ошибка при загрузке данных'); 
+    })
+}
+
+    deleteLike(id){
+        return fetch(`${this._host}cards/${id}/likes`, {
+            method: 'DELETE',
+            headers:{
+                authorization: this._token,
+                'content-type': 'application/json',
+            },
+        })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+    
             throw new Error('Ошибка при загрузке данных'); 
         })
     }
