@@ -15,10 +15,7 @@ import {
   popupConfirm,
   avatarEditForm,
   avatarEditButton,
-  avatarProfile,
-  submitAddButton,
-  submitEditButton,
-  submitAvatarButtom
+  avatarProfile
 } from "../utils/const.js";
 import Api from "../components/Api.js";
 import FormValidator from "../components/FormValidator.js";
@@ -29,7 +26,6 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithConfirmation from "../components/PopupWithConfirmation";
 import UserInfo from "../components/UserInfo.js";
-import { data } from "autoprefixer";
 
 const api = new Api(config.host, config.headers);
 
@@ -39,8 +35,7 @@ Promise.all([api.getUserInfo(), api.getCards()])
   .then(([data, initialCards]) => {
     userInfo.setUserInfo(data);
     userId = data._id;
-    renderCards.setItems(initialCards);
-    renderCards.renderItems();
+    renderCards.renderItems(initialCards);
   })
   .catch((err) => {
     console.log(err);
@@ -92,7 +87,7 @@ function handleSendAddForm(formData) {
       console.log(err);
     })
     .finally(() => {
-      submitAddButton.textContent = "Cоздать"
+      placeAddPopup.startButtonText();
     })
 }
 
@@ -108,7 +103,7 @@ function handleSendEditForm(formData) {
       console.log(err);
     })
     .finally(() => {
-      submitEditButton.textContent = "Cохранить"
+      infoUserPopup.startButtonText();
     })
 }
 
@@ -153,7 +148,7 @@ function handleEditAvatar(formData) {
       console.log(err);
     })
     .finally(() => {
-      submitAvatarButtom.textContent = "Сохранить"
+      avatarEditPopup.startButtonText();
     })
 }
 

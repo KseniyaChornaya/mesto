@@ -4,18 +4,14 @@ export default class Section {
     this._container = document.querySelector(containerSelector);
   }
 
-  setItems(items){
-    this._initialArray = items;
-  }
-
   clear() {
     this._container.innerHTML = "";
   }
 
-  renderItems() {
+  renderItems(items) {
     this.clear();
 
-    this._initialArray.forEach(item => {
+    items.forEach(item => {
       this._renderer(item);
     });
   }

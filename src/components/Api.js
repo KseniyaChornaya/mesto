@@ -1,10 +1,9 @@
-import { data } from "autoprefixer";
+
 
 export default class Api {
   constructor(host, headers) {
     this._host = host;
     this._headers = headers;
-    // this._getJsonErrors = this._getJsonErrors.bind(this)
   }
 
   _getJsonErrors(res){
@@ -22,7 +21,7 @@ export default class Api {
   }
 
   getUserInfo() {
-    return fetch(this._host + "/users/me", {
+    return fetch(this._host + "users/me", {
       method: "GET",
       headers: this._headers,
     })
